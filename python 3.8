@@ -1,0 +1,209 @@
+from flask import Flask, render_template, request, redirect, session
+import mysql.connector
+import requests
+import pickle
+import datetime
+import pandas as pd
+
+app = Flask(__name__)
+app.secret_key = "secret123"
+
+# ---------------- DB ----------------
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="green_route",
+    charset="utf8"
+)
+
+# ---------------- LOAD MODEL ----------------
+with open("traffic_model.pkl", "rb") as f:
+    traffic_model = pickle.load(f)
+
+def read_dataset():
+    return pd.read_csv("data/dataset.csv")
+
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if username == "admin" and password == "admin":
+            session['admin'] = True
+            return redirect('/admin_dashboard')
+
+    return render_template("admin_login.html")
+
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    if 'admin' not in session:
+        return redirect('/admin')
+
+    return render_template("admin_dashboard.html")
+
+@app.route('/view_users')
+def view_users():
+    if 'admin' not in session:
+        return redirect('/admin')
+
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users")
+    users = cursor.fetchall()
+
+    return render_template("view_users.html", users=users)
+
+@app.route('/process1')
+def process1():
+    if 'admin' not in session:
+        return redirect('/admin')
+
+    df = read_dataset()
+
+    # Hide eco_score (target)
+    df_view = df.drop(columns=['eco_score'], errors='ignore')
+
+    df_view = df_view.head(20)
+
+    data = df_view.values.tolist()
+    columns = df_view.columns.tolist()
+
+    return render_template('process1.html', data=data, columns=columns)
+
+@app.route('/process2')
+def process2():
+    if 'admin' not in session:
+        return redirect('/admin')
+
+    df = read_dataset()
+
+    summary = []
+
+    for col in df.columns:
+        summary.append([
+            col,
+            df[col].count(),
+            str(df[col].dtype)
+        ])
+
+    return render_template('process2.html', summary=summary)
+
+NUMERICAL_FEATURES = [
+    "distance_km",
+    "avg_speed_kmh",
+    "fuel_consumption_l",
+    "co2_emission_g",
+    "travel_time_min"
+]
+
+CATEGORICAL_FEATURES = [
+    "source",
+    "destination",
+    "traffic_level",
+    "road_type",
+    "vehicle_type",
+    "weather"
+]
+
+TARGET = ["eco_score"]
+
+@app.route('/process3')
+def process3():
+    if 'admin' not in session:
+        return redirect('/admin')
+
+    return render_template(
+        'process3.html',
+        numerical=NUMERICAL_FEATURES,
+        categorical=CATEGORICAL_FEATURES,
+        target=TARGET
+    )
+
+@app.route('/process4')
+def process4():
+    if 'admin' not in session:
+        return redirect('/admin')
+
+    df = read_dataset()
+
+    df = df.head(40)
+
+    data = df.values.tolist()
+    columns = df.columns.tolist()
+
+    return render_template('process4.html', data=data, columns=columns)
+
+@app.route('/process5')
+def process5():
+    if 'admin' not in session:
+        return redirect('/admin')
+
+    df = read_dataset()
+
+    counts = df['eco_score'].value_counts().to_dict()
+
+    high = counts.get('High', 0)
+    medium = counts.get('Medium', 0)
+    low = counts.get('Low', 0)
+
+    return render_template(
+        "process5.html",
+        high=high,
+        medium=medium,
+        low=low
+    )
+
+
+
+# ---------------- REGISTER ----------------
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        data = request.form
+        cursor = db.cursor()
+
+        cursor.execute("""
+        INSERT INTO users(name,email,mobile,location,username,password)
+        VALUES(%s,%s,%s,%s,%s,%s)
+        """, (data['name'], data['email'], data['mobile'],
+              data['location'], data['username'], data['password']))
+
+        db.commit()
+        return redirect('/login')
+
+    return render_template("register.html")
+
+
+# ---------------- LOGIN ----------------
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        cursor = db.cursor(dictionary=True)
+        cursor.execute(
+            "SELECT * FROM users WHERE username=%s AND password=%s",
+            (request.form['username'], request.form['password'])
+        )
+        user = cursor.fetchone()
+
+        if user:
+            session['user'] = user['username']
+            return redirect('/dashboard')
+
+    return render_template("login.html")
+
+
+# ---------------- HOME ----------------
+@app.route('/')
+def home():
+    return render_template("index.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+# ---------------- RUN ----------------
+if __name__ == "__main__":
+    app.run(debug=True)
