@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco Route System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#f5f5f5,#eaeaea);
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 60px;
+    
+    background:rgba(255,255,255,0.6);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(0,0,0,0.05);
+
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+/* LOGO STYLE */
+.logo{
+    font-family: 'Orbitron', sans-serif;
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:2px;
+    
+    background:linear-gradient(135deg,#ff7a00,#000);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    position:relative;
+}
+
+/* SECOND COLOR EMPHASIS */
+.logo span{
+    background:linear-gradient(135deg,#000,#ff9900);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* TRAFFIC GLOW EFFECT */
+.logo::before{
+    content:'';
+    position:absolute;
+    width:8px;
+    height:8px;
+    background:#ff7a00;
+    border-radius:50%;
+    left:-15px;
+    top:50%;
+    transform:translateY(-50%);
+    box-shadow:
+        0 0 10px #ff7a00,
+        0 0 20px #ff7a00,
+        0 0 30px #ff7a00;
+}
+
+/* OPTIONAL HOVER EFFECT */
+.logo:hover{
+    transform:scale(1.05);
+    transition:0.3s;
+}
+.nav-links{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+/* NAV LINKS */
+.nav-links a{
+    text-decoration:none;
+    color:#555;
+    padding:8px 18px;
+    border-radius:20px;
+    position:relative;
+    transition:all 0.3s ease;
+}
+
+/* HOVER EFFECT */
+.nav-links a:hover{
+    background:rgba(255,122,0,0.1);
+    color:#ff7a00;
+}
+
+/* ACTIVE LINK */
+.nav-links a.active{
+    background:linear-gradient(135deg,#ff7a00,#ff9900);
+    color:#fff;
+}
+
+/* UNDERLINE ANIMATION */
+.nav-links a::after{
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:50%;
+    width:0%;
+    height:2px;
+    background:#ff7a00;
+    transition:0.3s;
+    transform:translateX(-50%);
+}
+
+.nav-links a:hover::after{
+    width:60%;
+}
+
+/* REGISTER BUTTON */
+.register{
+    background:linear-gradient(135deg,#ff7a00,#ff9900);
+    color:#fff;
+    padding:10px 22px;
+    border-radius:25px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.register:hover{
+    transform:scale(1.05);
+    box-shadow:0 5px 15px rgba(255,122,0,0.3);
+}
+
+/* ================= HERO ================= */
+.hero-title{
+    font-family:'Exo 2', sans-serif;
+    font-size:60px;
+    line-height:1.1;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+/* SMART (TOP TEXT) */
+.hero-title span{
+    display:block;
+    font-size:28px;
+    font-weight:600;
+    letter-spacing:4px;
+    color:#444;
+
+    position:relative;
+}
+
+/* ADD SMALL LINE EFFECT */
+.hero-title span::after{
+    content:'';
+    width:60px;
+    height:3px;
+    background:#ff7a00;
+    position:absolute;
+    left:0;
+    bottom:-6px;
+}
+
+/* ECO ROUTE SYSTEM MAIN TEXT */
+.hero-title{
+    background:linear-gradient(135deg,#ff7a00,#ff9900,#000);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* SUBTLE GLOW */
+.hero-title{
+    text-shadow:0 5px 20px rgba(255,122,0,0.2);
+}
+.hero{
+    display:flex;
+    align-items:center;
+    padding:60px;
+    height:520px;
+}
+
+/* TEXT */
+.hero-text{
+    width:45%;
+}
+
+.hero-text h1{
+    font-size:55px;
+    color:#ff7a00;
+}
+
+.hero-text h1 span{
+    display:block;
+    color:#222;
+}
+
+.hero-text p{
+    margin-top:15px;
+    color:#555;
+    line-height:1.6;
+}
+
+/* IMAGE */
+.hero-img{
+    width:55%;
+    height:100%;
+    display:flex;
+    justify-content:flex-end; /* SHIFT RIGHT */
+}
+
+.image-box{
+    width:95%;
+    height:100%;
+    overflow:hidden;
+
+    clip-path:polygon(12% 0,100% 0,88% 100%,0% 100%);
+
+    border:4px solid rgba(255,122,0,0.3);
+    box-shadow:0 10px 30px rgba(255,122,0,0.2);
+    border-radius:10px;
+}
+
+.image-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* ================= TABS ================= */
+.tabs{
+    display:flex;
+    margin:0 60px;
+    margin-top:-40px;
+}
+
+.tab{
+    padding:15px 40px;
+    background:linear-gradient(135deg,#ff7a00,#ff9900);
+    color:white;
+    margin-right:10px;
+    cursor:pointer;
+    transform:skewX(-20deg);
+    transition:0.3s;
+}
+
+.tab span{
+    display:block;
+    transform:skewX(20deg);
+}
+
+.tab:hover{
+    transform:skewX(-20deg) scale(1.05);
+}
+
+/* ACTIVE TAB */
+.tab.active{
+    background:#333;
+}
+
+/* CONTENT */
+.tab-content{
+    padding:40px 60px;
+    color:#555;
+    display:none;
+}
+
+.tab-content.active{
+    display:block;
+}
+
+/* ================= FOOTER ================= */
+.footer{
+    padding:20px 60px;
+    display:flex;
+    justify-content:space-between;
+    border-top:1px solid rgba(0,0,0,0.05);
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:900px){
+    .hero{
+        flex-direction:column;
+        height:auto;
+    }
+
+    .hero-text,.hero-img{
+        width:100%;
+    }
+
+    .hero-img{
+        height:300px;
+        margin-top:20px;
+    }
+}
+/* FIX SMART TEXT VISIBILITY */
+.hero-title span{
+    -webkit-text-fill-color:#000 !important;
+    background:none !important;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">
+    ECO <span>ROUTE</span>
+</div>
+
+    <div class="nav-links">
+        <a href="/" class="active">HOME</a>
+        <a href="/admin">ADMIN</a>
+        <a href="/login">USER</a>
+
+        <div class="register"><a href="/register">REGISTER</a></div>
+    </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+
+    <div class="hero-text">
+<h1 class="hero-title">
+    <span style="color: #000;">Smart</span> ECO ROUTE SYSTEM
+</h1>
+        <p>
+            Optimize urban travel using AI-powered eco-friendly route recommendations.
+            Reduce traffic congestion, fuel consumption, and carbon emissions using 
+            Multi-Agent Reinforcement Learning and real-time traffic intelligence.
+        </p>
+    </div>
+
+    <div class="hero-img">
+        <div class="image-box">
+            <img src="../static/bg.png">
+        </div>
+    </div>
+
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+    <div class="tab active" onclick="openTab(event,'overview')"><span>OVERVIEW</span></div>
+    <div class="tab" onclick="openTab(event,'working')"><span>WORKING</span></div>
+    <div class="tab" onclick="openTab(event,'features')"><span>FEATURES</span></div>
+</div>
+
+
+
+<div id="features" class="tab-content">
+    • Carbon-aware routing  
+    • Traffic optimization  
+    • Real-time decision making  
+    • Explainable AI (LIME)
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div>© 2025 Eco Route System</div>
+    <div>🌐 🚗 🌱</div>
+</div>
+
+<script>
+function openTab(event,id){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+
+    event.currentTarget.classList.add('active');
+    document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>

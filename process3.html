@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card-box">
+    <h3><i class="fa fa-layer-group"></i> Feature Classification</h3>
+
+    <h5 class="mt-3">Numerical Features</h5>
+    <ul>
+        {% for n in numerical %}
+        <li>{{n}}</li>
+        {% endfor %}
+    </ul>
+
+    <h5>Categorical Features</h5>
+    <ul>
+        {% for c in categorical %}
+        <li>{{c}}</li>
+        {% endfor %}
+    </ul>
+
+    <h5>Target</h5>
+    <ul>
+        {% for t in target %}
+        <li>{{t}}</li>
+        {% endfor %}
+    </ul>
+
+    <div class="next-btn">
+        <a href="/process4" class="btn btn-main">Next →</a>
+    </div>
+</div>
+
+{% endblock %}

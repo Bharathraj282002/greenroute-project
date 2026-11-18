@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Extraction</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* ================= BODY ================= */
+body{
+    background:
+        radial-gradient(circle at top left,#fff3e6,transparent 40%),
+        radial-gradient(circle at bottom right,#ffe0c2,transparent 40%),
+        linear-gradient(135deg,#f5f5f5,#eaeaea);
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar{
+    position:fixed;
+    top:20px;
+    left:20px;
+    width:250px;
+    height:calc(100vh - 40px);
+    padding:25px;
+    border-radius:25px;
+    background:linear-gradient(180deg,#ff7a00,#ff9900);
+    box-shadow:0 25px 60px rgba(255,122,0,0.4);
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    color:#fff;
+    margin-bottom:35px;
+}
+
+.nav-links{list-style:none;}
+.nav-links li{margin-bottom:15px;}
+
+.nav-links a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 18px;
+    border-radius:50px;
+    color:#fff;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.nav-links a:hover{
+    background:rgba(0,0,0,0.25);
+    transform:translateX(6px);
+}
+
+.nav-links a.active{
+    background:#000;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+    margin-left:300px;
+    margin-top:20px;
+    margin-right:20px;
+    padding:18px 30px;
+    border-radius:25px;
+    background:linear-gradient(135deg,#ff7a00,#ff9900);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#fff;
+    box-shadow:0 20px 50px rgba(255,122,0,0.35);
+}
+
+/* ================= MAIN ================= */
+.main{
+    margin-left:300px;
+    padding:40px;
+}
+
+/* ================= BANNER ================= */
+.banner{
+    border-radius:25px;
+    padding:40px;
+    background:linear-gradient(135deg,#000,#1a1a1a);
+    color:#fff;
+    margin-bottom:30px;
+}
+
+.banner h2{
+    font-size:28px;
+}
+
+/* ================= TABLE CARD ================= */
+.table-card{
+    position:relative;
+    padding:25px;
+    border-radius:22px;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(10px);
+    overflow:hidden;
+}
+
+/* GLOW BORDER */
+.table-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:22px;
+    padding:1px;
+    background:linear-gradient(135deg,#ff7a00,#ff9900,#ff7a00);
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+
+    pointer-events:none;
+}
+
+/* ================= SCROLL TABLE ================= */
+.table-wrapper{
+    margin-top:15px;
+    max-height:400px;
+    overflow:auto;
+    border-radius:12px;
+}
+
+/* TABLE */
+table{
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+/* HEADER */
+thead th{
+    position:sticky;
+    top:0;
+    background:linear-gradient(135deg,#ff7a00,#ff9900);
+    color:#fff;
+    padding:12px;
+    font-size:13px;
+    z-index:2;
+}
+
+/* BODY */
+tbody td{
+    padding:10px;
+    font-size:13px;
+    color:#444;
+    white-space:nowrap;
+}
+
+/* ROW STYLE */
+tbody tr{
+    background:#fff;
+    transition:0.3s;
+}
+
+tbody tr:nth-child(even){
+    background:#fff6ef;
+}
+
+tbody tr:hover{
+    background:#ffe3cc;
+}
+
+/* ================= BUTTON ================= */
+.next-btn{
+    margin-top:20px;
+    text-align:right;
+}
+
+.next-btn a{
+    padding:10px 22px;
+    border-radius:25px;
+    background:linear-gradient(135deg,#ff7a00,#ff9900);
+    color:#fff;
+    text-decoration:none;
+    box-shadow:0 5px 15px rgba(255,122,0,0.3);
+    transition:0.3s;
+}
+
+.next-btn a:hover{
+    transform:scale(1.08);
+    box-shadow:0 10px 25px rgba(255,122,0,0.5);
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:900px){
+    .sidebar{display:none;}
+    .navbar,.main{margin-left:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">ECO ROUTE</div>
+
+    <ul class="nav-links">
+        <li><a href="/admin_dashboard"><i class="fa fa-gauge-high"></i> Dashboard</a></li>
+        <li><a href="/view_users"><i class="fa fa-users"></i> Users</a></li>
+        <li><a href="/process1" class="active"><i class="fa fa-database"></i> Feature Extraction</a></li>
+        <li><a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h3>Feature Extraction</h3>
+    <div>
+        <i class="fa fa-bell"></i>
+        <i class="fa fa-user"></i>
+        <i class="fa fa-right-from-bracket"></i>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- BANNER -->
+    <div class="banner">
+        <h2>Feature Engineering</h2>
+        <p>Processed dataset with extracted features for model input</p>
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="table-card">
+
+        <h3><i class="fa fa-table"></i> Feature Extraction</h3>
+
+        <div class="table-wrapper">
+
+            <table>
+                <thead>
+                    <tr>
+                        {% for col in columns %}
+                        <th>{{col}}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        {% for val in row %}
+                        <td>{{val}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="next-btn">
+            <a href="/process5">Next →</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
