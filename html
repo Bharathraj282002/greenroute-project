@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco Route System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&display=swap" rel="stylesheet">
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">
+    ECO <span>ROUTE</span>
+</div>
+
+    <div class="nav-links">
+        <a href="/" class="active">HOME</a>
+        <a href="/admin">ADMIN</a>
+        <a href="/login">USER</a>
+
+        <div class="register"><a href="/register">REGISTER</a></div>
+    </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+
+    <div class="hero-text">
+<h1 class="hero-title">
+    <span style="color: #000;">Smart</span> ECO ROUTE SYSTEM
+</h1>
+        <p>
+            Optimize urban travel using AI-powered eco-friendly route recommendations.
+            Reduce traffic congestion, fuel consumption, and carbon emissions using 
+            Multi-Agent Reinforcement Learning and real-time traffic intelligence.
+        </p>
+    </div>
+
+    <div class="hero-img">
+        <div class="image-box">
+            <img src="../static/bg.png">
+        </div>
+    </div>
+
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+    <div class="tab active" onclick="openTab(event,'overview')"><span>OVERVIEW</span></div>
+    <div class="tab" onclick="openTab(event,'working')"><span>WORKING</span></div>
+    <div class="tab" onclick="openTab(event,'features')"><span>FEATURES</span></div>
+</div>
+
+
+
+<div id="features" class="tab-content">
+    • Carbon-aware routing  
+    • Traffic optimization  
+    • Real-time decision making  
+    • Explainable AI (LIME)
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div>© 2025 Eco Route System</div>
+    <div>🌐 🚗 🌱</div>
+</div>
+
+<script>
+function openTab(event,id){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+
+    event.currentTarget.classList.add('active');
+    document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>
